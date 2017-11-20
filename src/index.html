@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" ng-app='app'>
+<head>
+  <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MyApp</title>
+
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<script src="https://code.angularjs.org/1.4.0/angular.min.js"></script>
+<script>
+var app = angular.module('app', []);
+
+app.controller('MainCtrl', function($http) {
+		var vm = this;
+		vm.data = false;
+		vm.fetchData = function(user){
+			vm.loading = true;
+			$http.get('https://api.github.com/users/yamleal').then(function(res){
+			vm.data=true;
+			vm.name= res.data.name || 'not Found';
+			vm.repos_url = res.data.url || 'not found';
+			vm.repos_url2 = res.data.repos_url || 'not found';
+			vm.loading = false;
+		
+			
+			})
+		}
+	})
+	
+
+
+
+
+
+</script>
+
+</head>
+<body ng-controller='MainCtrl as vm'>
+
+<button ng-click="vm.fetchData(user)">Find</button>
+<h4 ng-if="vm.loading === true">Loading...</h4>
+<h3 ng-hide="bm.data === true">{{vm.name}} --- {{vm.repos_url}} --- {{vm.repos_url2}}</h3>
+ 
+</body>
+</html>
